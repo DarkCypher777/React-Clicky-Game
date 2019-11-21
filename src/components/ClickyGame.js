@@ -6,84 +6,95 @@ import Banner from "./Banner";
 import images from "../images";
 
 class ClickyGame extends Component {
-    state = {
-        score: 0,
-        highScore: 0,
-        navMsgColor: "",
-        navMessage: "Click an image to begin!",
-        allCharacters: this.shuffleArray(),
+  state = {
+    score: 0,
+    highScore: 0,
+    navMsgColor: "",
+    navMessage: "Click an image to begin!",
+    allCharacters: this.shuffleArray(),
+    wasClicked: [],
+    shake: false
+  };
+
+  clickEvent = this.checkClicked.bind(this);
+  shuffleArray() {
+    const newArr = images.slice();
+    const shuffleArr = [];
+
+    while (newArr.length > 0) {
+      shuffleArr.push(
+        newArr.splice(Math.floor(Math.random() * newArr.length), 1)[0]);
+    }
+    
+    return shuffleArr;
+  }
+
+  checkClicked(clickedElem) {
+    const prevState = this.state.wasClicked.slice();
+
+    // shuffle images
+    const shuffled = this.shuffleArray();
+
+    // tracks score
+    let score = this.state.score;
+    let highScore = this.state.highScore;
+
+    if (!this.state.wasClicked.includes(clickedElem)) {
+      if (score === highScore) {
+        score++;
+        highScore++;
+      } else {
+        score++;
+      }
+      prevState.push(clickedElem);
+    }
+
+    if (this.state.wasClicked.includes(clickedElem)) {
+      let score = 0;
+      return this.setState({
+        score: score,
+        highScore: highScore,
+        navMsgColor: "incorrect",
+        navMessage: "Wrong!",
+        allCharacters: shuffled,
         wasClicked: [],
-        shake: false
-    };
-
-    clickEvent = this.checkClicked.bind(this);
-    shuffleArray() {
-        const newArr = images.slice();
-        const shuffleArr = [];
-
-        while (newArr.length > 0) {
-            shuffleArr.push(newArr.splice(Math.floor(Math.random() * newArr.length), 1)[0]);   
-        }
-        return shuffleArr;
+        shake: true
+      });
     }
 
-    checkClicked(clickedElem) {
+    this.setState({
+      score: score,
+      highScore: highScore,
+      navMsgColor: "correct",
+      navMessage: "You Guessed Right!",
+      allCharacters: shuffled,
+      wasClicked: prevState,
+      shake: false
+    });
 
-        const prevState = this.state.wasClicked.slice();
+    return setTimeout(() => this.setState({ navMessage: "" }), 500);
+  }
 
-        // shuffle images
-        const shuffled = this.shuffleArray();
-
-        // tracks score
-        let score = this.state.score;
-        let highScore = this.state.highScore;
-
-        if (!this.state.wasClicked.includes(clickedElem)) {
-            let score = 0;
-            return this.setState({
-                score: score,
-                highScore: highScore,
-                navMsgColor: "incorrect",
-                navMessage: "Wrong!",
-                allCharacters: shuffled,
-                wasClicked: [],
-                shake: true
-            });
-        }
-
-        this.setState({
-            score: score,
-            highScore: highScore,
-            navMsgColor: "correct",
-            navMessage: "You Guessed Right!",
-            allCharacters: shuffled,
-            wasClicked: prevState,
-            shake: false
-        });
-
-        return setTimeout(() => this.setState({ navMessage: ""}), 500);
-    }
-
-    render() {
-        const state = this.state;
-        return (
-            <div>
-                <Navbar
-                    score={state.score}
-                    highScore={state.highScore}
-                    navMessage={state.navMessage}
-                    navMsgColor={state.navMsgColor}
-                />
-                <Banner />
-                <Container
-                    shake={state.shake}
-                    characters={state.allCharacters}
-                    clickEvent={this.clickEvent}
-                />
-                <Footer />
-            </div>
-        );
-    }
+  render() {
+    const state = this.state;
+    return (
+      <div>
+        <Navbar
+          score={state.score}
+          highScore={state.highScore}
+          navMessage={state.navMessage}
+          navMsgColor={state.navMsgColor}
+        />
+        <Banner />
+        <Container
+          shake={state.shake}
+          characters={state.allCharacters}
+          clickEvent={this.clickEvent}
+        />
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default ClickyGame;

@@ -1,7 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import ClickyGame from "./components/ClickyGame";
-import './index.css';
+import "./index.css";
 
-
-ReactDOM.render(<ClickyGame />, document.getElementById('root'));
+ReactDOM.render(<ClickyGame />, document.getElementById("root"));
