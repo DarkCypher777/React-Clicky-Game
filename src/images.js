@@ -1,8 +1,8 @@
-import bulbasur from "./images/bulbasur.png";
+import bullbasaur from "./images/bullbasaur.png";
 import abra from "./images/abra.png";
 import bellsprout from "./images/bellsprout.png";
 import caterpie from "./images/caterpie.png";
-import chamander from "./images/chamander.png";
+import charmander from "./images/charmander.png";
 import dratini from "./images/dratini.png";
 import eevee from "./images/eevee.png";
 import jigglypuff from "./images/jigglypuff.png";
@@ -25,10 +25,10 @@ import zubat from "./images/zubat.png";
 
 const images = [
     abra,
-    bulbasur,
+    bullbasaur,
     bellsprout,
     caterpie,
-    chamander,
+    charmander,
     dratini,
     eevee,
     jigglypuff,
